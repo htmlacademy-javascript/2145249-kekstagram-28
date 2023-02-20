@@ -2,8 +2,7 @@ function getStringLength (string, maxLength) {
   return string.length <= maxLength;
 }
 
-let result = getStringLength('проверяемая строка', 20);
-console.log(result);
+getStringLength('проверяемая строка', 20);
 
 
 function getPalindrome (string) {
@@ -17,8 +16,7 @@ function getPalindrome (string) {
   return true;
 }
 
-result = getPalindrome('Лёша на полке клопа нашёл ');
-console.log(result);
+getPalindrome('Лёша на полке клопа нашёл ');
 
 
 function getNumberFromString (string) {
@@ -38,8 +36,7 @@ function getNumberFromString (string) {
   return(Number(number));
 }
 
-result = getNumberFromString('1 кефир, 0.5 батона');
-console.log(result);
+getNumberFromString('1 кефир, 0.5 батона');
 
 
 function getStringWithAdded(string, minLength, addedSymbol) {
@@ -59,5 +56,4 @@ function getStringWithAdded(string, minLength, addedSymbol) {
   return string;
 }
 
-result = getStringWithAdded('q', 4, 'we');
-console.log(result);
+getStringWithAdded('q', 4, 'we');
