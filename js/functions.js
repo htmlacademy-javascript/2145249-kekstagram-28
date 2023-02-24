@@ -1,11 +1,11 @@
-function getStringLength (string, maxLength) {
+function checkStringLength (string, maxLength) {
   return string.length <= maxLength;
 }
 
-getStringLength('проверяемая строка', 20);
+checkStringLength('проверяемая строка', 20);
 
 
-function getPalindrome (string) {
+function checkPalindrome (string) {
   string = string.toLowerCase();
   string = string.replaceAll(' ', '');
   for(let i = 0; i <= string.length; i++) {
@@ -16,17 +16,17 @@ function getPalindrome (string) {
   return true;
 }
 
-getPalindrome('Лёша на полке клопа нашёл ');
+checkPalindrome('Лёша на полке клопа нашёл ');
 
 
-function getNumberFromString (string) {
+function extractNumberFromString (string) {
   let number = '';
   if(typeof(string) === 'number') {
     string = string.toString();
   }
   string = string.replaceAll(' ', '');
   for(let i = 0; i <= string.length; i++) {
-    if (Number(string[i]) === Number(string[i])) {
+    if (!isNaN(string[i])) {
       number += string[i];
     }
   }
@@ -36,7 +36,7 @@ function getNumberFromString (string) {
   return(Number(number));
 }
 
-getNumberFromString('1 кефир, 0.5 батона');
+extractNumberFromString('1 кефир, 0.5 батона');
 
 
 function getStringWithAdded(string, minLength, addedSymbol) {
