@@ -1,3 +1,7 @@
+const PHOTO_COUNT = 25;
+
+const AVATAR_COUNT = 6;
+
 const DESCRIPTION = [
   'Это был хороший день!',
   'Простое описание',
@@ -45,16 +49,6 @@ function createRandomIdFromRangeGenerator(min, max) {
   };
 }
 
-function createRandomRepeatNumFromRange(min, max) {
-  const previousValues = [];
-
-  return function () {
-    const currentValue = getRandomInteger(min, max);
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-}
-
 function createCommentId(startNum) {
   let currentId = startNum;
   return function () {
@@ -63,27 +57,22 @@ function createCommentId(startNum) {
   };
 }
 
-const generatePhotoId = createRandomIdFromRangeGenerator(1, 25);
-const generatePhotoUrl = createRandomIdFromRangeGenerator(1, 25);
-const generateDescription = createRandomRepeatNumFromRange(0, DESCRIPTION.length - 1);
-const generateLikes = createRandomRepeatNumFromRange(15, 200);
+const generatePhotoId = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
+const generatePhotoUrl = createRandomIdFromRangeGenerator(1, PHOTO_COUNT);
 const generateCommentId = createCommentId(0);
-const generateAvatar = createRandomRepeatNumFromRange(1, 6);
-const generateMessage = createRandomRepeatNumFromRange(0, MESSAGE.length - 1);
-const generateName = createRandomRepeatNumFromRange(0, NAME.length - 1);
 
 const createComments = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar${generateAvatar()}.svg`,
-  message: MESSAGE[generateMessage()],
-  name: NAME[generateName()]
+  avatar: `img/avatar${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
+  name: NAME[getRandomInteger(0, NAME.length - 1)]
 });
 
 const createDescription = () => ({
   id: generatePhotoId(),
   url: `photos/${generatePhotoUrl()}.jpg`,
-  description: DESCRIPTION[generateDescription()],
-  likes: generateLikes(),
+  description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
+  likes: getRandomInteger(15, 200),
   comments: Array.from({length: getRandomInteger(0, 3)}, createComments)
 });
 
