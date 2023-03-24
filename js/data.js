@@ -37,7 +37,7 @@ const generateCommentId = createCommentId(0);
 
 const createComments = () => ({
   id: generateCommentId(),
-  avatar: `img/avatar${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
   message: MESSAGE[getRandomInteger(0, MESSAGE.length - 1)],
   name: NAME[getRandomInteger(0, NAME.length - 1)]
 });

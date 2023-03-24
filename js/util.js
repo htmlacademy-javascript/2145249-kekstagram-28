@@ -26,4 +26,8 @@ function createCommentId(startNum) {
   };
 }
 
-export {getRandomInteger, createRandomIdFromRangeGenerator, createCommentId};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const isEnterKey = (evt) => evt.key === 'Enter';
+
+export {getRandomInteger, createRandomIdFromRangeGenerator, createCommentId, isEscapeKey, isEnterKey};
