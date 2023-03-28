@@ -1,32 +1,49 @@
 const fullPicture = document.querySelector('.big-picture');
 const bigImage = fullPicture.querySelector('.big-picture__img img');
 const likes = fullPicture.querySelector('.likes-count');
-const commentsCount = fullPicture.querySelector('.comments-count');
+const fullCommentCount = fullPicture.querySelector('.social__comment-count');
 const description = fullPicture.querySelector('.social__caption');
 const comments = fullPicture.querySelector('.social__comments');
+const commentList = fullPicture.querySelector('.social__comment');
+const commentsLoader = fullPicture.querySelector('.comments-loader');
+const MIN_COMMENT_COUNT = 5;
+let shownComments = 0;
+let moreComments = [];
+
+const renderComments = () => {
+  shownComments += MIN_COMMENT_COUNT;
+  if(shownComments >= moreComments.length) {
+    commentsLoader.classList.add('hidden');
+    shownComments = moreComments.length;
+  } else {
+    commentsLoader.classList.remove('hidden');
+  }
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < shownComments; i++) {
+    const currentComment = commentList.cloneNode(true);
+    currentComment.querySelector('.social__picture').src = moreComments[i].avatar;
+    currentComment.querySelector('.social__picture').alt = moreComments[i].name;
+    currentComment.querySelector('.social__text').textContent = moreComments[i].message;
+    fragment.append(currentComment);
+  }
+  comments.innerHTML = '';
+  comments.appendChild(fragment);
+  fullCommentCount.innerHTML = `${shownComments} из <span class="comments-count">${moreComments.length}</span>`;
+};
 
 const renderFullPicture = (picture) => {
   bigImage.src = picture.url;
   likes.textContent = picture.likes;
   description.textContent = picture.description;
-  commentsCount.textContent = picture.comments.length;
-  comments.innerHTML = '';
-  for (let i = 0; i < picture.comments.length; i++) {
-    comments.innerHTML += (`<li class="social__comment">
-    <img
-      class="social__picture"
-      src="${picture.comments[i].avatar}"
-      alt="${picture.comments[i].name}"
-      width="35" height="35">
-      <p class="social__text">${picture.comments[i].message}</p>
-    </li>`);
-  }
-  fullPicture.querySelector('.social__comment-count').classList.add('hidden');
-  fullPicture.querySelector('.comments-loader').classList.add('hidden');
+  moreComments = picture.comments;
+  shownComments = 0;
+  renderComments();
 };
 
 const clearFullPicture = () => {
+  moreComments = [];
   comments.innerHTML = '';
 };
 
-export {renderFullPicture, clearFullPicture};
+export {renderFullPicture, clearFullPicture, renderComments};
