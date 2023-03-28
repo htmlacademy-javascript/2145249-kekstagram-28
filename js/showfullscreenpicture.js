@@ -1,11 +1,11 @@
 import { isEscapeKey, isEnterKey } from './util.js';
 import { usersPictures } from './create-thumbnails.js';
-
-import {renderFullPicture, clearFullPicture} from './createfullscreenpicture.js';
+import {renderFullPicture, clearFullPicture, renderComments} from './createfullscreenpicture.js';
 
 const allPictures = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const closePicture = bigPicture.querySelector('.big-picture__cancel');
+const showMoreComments = document.querySelector('.social__comments-loader');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -23,6 +23,7 @@ function openFullPicture (evt) {
     renderFullPicture(pictureData);
     document.body.classList.add('modal-open');
   }
+  showMoreComments.addEventListener('click', renderComments);
   document.addEventListener('keydown', onDocumentKeydown);
 }
 

@@ -47,8 +47,8 @@ const createDescription = () => ({
   url: `photos/${generatePhotoUrl()}.jpg`,
   description: DESCRIPTION[getRandomInteger(0, DESCRIPTION.length - 1)],
   likes: getRandomInteger(15, 200),
-  comments: Array.from({length: getRandomInteger(0, 3)}, createComments)
+  comments: Array.from({length: getRandomInteger(0, 12)}, createComments)
 });
 
 const createDescriptions = () => Array.from({length: 25}, createDescription);
-export {createDescriptions};
+export {createDescriptions, createComments};
