@@ -1,4 +1,5 @@
 import { isEscapeKey, isEnterKey } from './util.js';
+import { resetEffects, resetScale } from './editnewphoto.js';
 
 const form = document.querySelector('.img-upload__form');
 const formContainer = document.querySelector('.img-upload__overlay');
@@ -26,6 +27,8 @@ function closePicture () {
   form.reset();
   pristine.reset();
   uploadFile.value = '';
+  resetEffects();
+  resetScale();
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
