@@ -1,5 +1,7 @@
-import { isEscapeKey, isEnterKey } from './util.js';
+import { isEscapeKey, isEnterKey} from './util.js';
+import { showAlertError, showAlertSuccess} from './showalerts.js';
 import { resetEffects, resetScale } from './editnewphoto.js';
+import { sendData } from './api.js';
 
 const form = document.querySelector('.img-upload__form');
 const formContainer = document.querySelector('.img-upload__overlay');
@@ -8,6 +10,12 @@ const uploadCancel = document.querySelector('.img-upload__cancel');
 const fieldHashtag = document.querySelector('.text__hashtags');
 const fieldDescription = document.querySelector('.text__description');
 const MAX_HASHTAG_COUNT = 5;
+const submitButton = formContainer.querySelector('.img-upload__submit');
+
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -81,23 +89,42 @@ function validateHashtags(value) {
 
 pristine.addValidator(form.querySelector('.text__hashtags'), validateHashtags, 'Неправильно заполнены хэш-теги');
 
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if (isValid) {
-    const formData = new FormData(evt.target);
-    fetch(
-      'https://28.javascript.pages.academy/kekstagram',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    );
-  }
-});
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .then(
+          () => {
+            showAlertSuccess();
+          }
+        )
+        .catch(
+          () => {
+            showAlertError();
+          }
+        )
+        .finally(unblockSubmitButton);
+    }
+  });
+};
 
 function validateDescription(value) {
   return value.length <= 140;
 }
 
 pristine.addValidator(form.querySelector('.text__description'), validateDescription, 'Комментарий не более 140 символов');
+export {setUserFormSubmit, closePicture};
