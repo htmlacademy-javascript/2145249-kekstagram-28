@@ -81,8 +81,19 @@ function validateHashtags(value) {
 
 pristine.addValidator(form.querySelector('.text__hashtags'), validateHashtags, 'Неправильно заполнены хэш-теги');
 
-form.addEventListener('submit', () => {
-  pristine.validate();
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    const formData = new FormData(evt.target);
+    fetch(
+      'https://28.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    );
+  }
 });
 
 function validateDescription(value) {
