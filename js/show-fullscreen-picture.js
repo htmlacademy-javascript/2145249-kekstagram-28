@@ -1,6 +1,5 @@
 import { isEscapeKey, isEnterKey } from './util.js';
-import { usersPictures } from './create-thumbnails.js';
-import {renderFullPicture, clearFullPicture, renderComments} from './createfullscreenpicture.js';
+import { renderFullPicture, clearFullPicture, renderComments } from './create-fullscreen-picture.js';
 
 const allPictures = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
@@ -14,12 +13,12 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function openFullPicture (evt) {
+function openFullPicture (evt,pictures) {
 
   if(evt.target.matches('.picture__img')) {
     bigPicture.classList.remove('hidden');
     const target = evt.target.closest('.picture');
-    const pictureData = usersPictures.find((photoData) => photoData.id === Number(target.dataset.index));
+    const pictureData = pictures.find((photoData) => photoData.id === Number(target.dataset.index));
     renderFullPicture(pictureData);
     document.body.classList.add('modal-open');
   }
@@ -34,15 +33,16 @@ function closeFullPicture () {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-allPictures.addEventListener('click', (evt) => {
-  openFullPicture(evt);
-});
-
-allPictures.addEventListener('keydown', (evt) => {
-  if (isEnterKey(evt)) {
-    openFullPicture(evt);
-  }
-});
+const setGalleryHandlers = (pictures) => {
+  allPictures.addEventListener('click', (evt) => {
+    openFullPicture(evt, pictures);
+  });
+  allPictures.addEventListener('keydown', (evt) => {
+    if (isEnterKey(evt)) {
+      openFullPicture(evt, pictures);
+    }
+  });
+};
 
 closePicture.addEventListener('click', () => {
   closeFullPicture();
@@ -53,3 +53,5 @@ closePicture.addEventListener('keydown', (evt) => {
     closeFullPicture();
   }
 });
+
+export {setGalleryHandlers};
