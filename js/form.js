@@ -1,6 +1,6 @@
 import { isEscapeKey, isEnterKey} from './util.js';
-import { showAlertError, showAlertSuccess} from './showalerts.js';
-import { resetEffects, resetScale } from './editnewphoto.js';
+import { showAlert } from './show-alerts.js';
+import { resetEffects, resetScale } from './edit-new-photo.js';
 import { sendData } from './api.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -11,7 +11,6 @@ const fieldHashtag = document.querySelector('.text__hashtags');
 const fieldDescription = document.querySelector('.text__description');
 const MAX_HASHTAG_COUNT = 5;
 const submitButton = formContainer.querySelector('.img-upload__submit');
-
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую...'
@@ -23,7 +22,8 @@ const pristine = new Pristine(form, {
 });
 
 const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
+  const isOpen = document.querySelector('.error');
+  if (isEscapeKey(evt) && !isOpen) {
     evt.preventDefault();
     closePicture();
   }
@@ -109,12 +109,12 @@ const setUserFormSubmit = (onSuccess) => {
         .then(onSuccess)
         .then(
           () => {
-            showAlertSuccess();
+            showAlert('success');
           }
         )
         .catch(
           () => {
-            showAlertError();
+            showAlert('error');
           }
         )
         .finally(unblockSubmitButton);
@@ -127,4 +127,5 @@ function validateDescription(value) {
 }
 
 pristine.addValidator(form.querySelector('.text__description'), validateDescription, 'Комментарий не более 140 символов');
+
 export {setUserFormSubmit, closePicture};

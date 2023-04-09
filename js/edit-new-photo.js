@@ -7,30 +7,6 @@ const SCALE_STEP = 25;
 const SCALE_MAX = 100;
 const SCALE_MIN = 25;
 scaleInput.value = '100%';
-
-function scaleImage(value) {
-  newImage.style.transform = `scale(${value / 100})`;
-  scaleInput.value = `${value}%`;
-}
-
-scaleSmaller.addEventListener('click', () => {
-  let newScale = parseInt(scaleInput.value, 10) - SCALE_STEP;
-  if (newScale < SCALE_MIN) {
-    newScale = SCALE_MIN;
-  }
-  scaleImage(newScale);
-});
-
-scaleBigger.addEventListener('click', () => {
-  let newScale = parseInt(scaleInput.value, 10) + SCALE_STEP;
-  if (newScale > SCALE_MAX) {
-    newScale = SCALE_MAX;
-  }
-  scaleImage(newScale);
-});
-
-const resetScale = () => scaleImage(100);
-
 const effects = document.querySelector('.effects');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
@@ -85,11 +61,33 @@ const EFFECTS = [
     unit: '',
   }
 ];
+const STARTEFFECTLEVEL = 100;
+let currentEffect = '';
+
+function scaleImage(value) {
+  newImage.style.transform = `scale(${value / 100})`;
+  scaleInput.value = `${value}%`;
+}
+
+scaleSmaller.addEventListener('click', () => {
+  let newScale = parseInt(scaleInput.value, 10) - SCALE_STEP;
+  if (newScale < SCALE_MIN) {
+    newScale = SCALE_MIN;
+  }
+  scaleImage(newScale);
+});
+
+scaleBigger.addEventListener('click', () => {
+  let newScale = parseInt(scaleInput.value, 10) + SCALE_STEP;
+  if (newScale > SCALE_MAX) {
+    newScale = SCALE_MAX;
+  }
+  scaleImage(newScale);
+});
+
+const resetScale = () => scaleImage(100);
 
 sliderContainer.classList.add('hidden');
-const STARTEFFECTLEVEL = 100;
-
-let currentEffect = '';
 
 noUiSlider.create(sliderElement, {
   range: {

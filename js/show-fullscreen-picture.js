@@ -1,6 +1,5 @@
 import { isEscapeKey, isEnterKey } from './util.js';
-//import { usersPictures } from './create-thumbnails.js';
-import {renderFullPicture, clearFullPicture, renderComments} from './createfullscreenpicture.js';
+import { renderFullPicture, clearFullPicture, renderComments } from './create-fullscreen-picture.js';
 
 const allPictures = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
@@ -34,7 +33,7 @@ function closeFullPicture () {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-const openModal = (pictures) => {
+const setGalleryHandlers = (pictures) => {
   allPictures.addEventListener('click', (evt) => {
     openFullPicture(evt, pictures);
   });
@@ -55,4 +54,4 @@ closePicture.addEventListener('keydown', (evt) => {
   }
 });
 
-export {openModal};
+export {setGalleryHandlers};
