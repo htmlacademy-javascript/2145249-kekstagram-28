@@ -1,8 +1,6 @@
 const allPictures = document.querySelector('.pictures');
 const picturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const defaultButton = document.querySelector('#filter-default');
-const randomButton = document.querySelector('#filter-random');
-const discussedButton = document.querySelector('#filter-discussed');
+const filterContainer = document.querySelector('.img-filters__form');
 const RANDOM_PHOTO_COUNT = 10;
 
 const showChosenFilter = (evt) => {
@@ -14,54 +12,32 @@ const hideUnchosenFilter = () => {
   allButtons.forEach((element)=>element.classList.remove('img-filters__button--active'));
 };
 
-
 let comparePictures = () => true;
 let photosCount;
 
-const defaultSort = (render, photosCountDefault) => {
-  defaultButton.addEventListener('click', (evt) => {
+const sorting = (render, allPhotos) => {
+  filterContainer.addEventListener('click', (evt) => {
     hideUnchosenFilter();
     showChosenFilter(evt);
+    photosCount = allPhotos;
     document.querySelectorAll('.picture').forEach((element)=>element.remove());
-    photosCount = photosCountDefault;
-    comparePictures = () => true;
+    if(evt.target.id === 'filter-default') {
+      comparePictures = () => true;
+    }
+    if(evt.target.id === 'filter-random') {
+      comparePictures = () => (Math.random() - 0.5);
+      photosCount = RANDOM_PHOTO_COUNT;
+    }
+    if(evt.target.id === 'filter-discussed') {
+      comparePictures = (pictureA, pictureB) => {
+        const rankA = pictureA.comments.length;
+        const rankB = pictureB.comments.length;
+        return rankB - rankA;
+      };
+    }
     render();
   });
 };
-
-const randomSort = (render) => {
-  randomButton.addEventListener('click', (evt) => {
-    hideUnchosenFilter();
-    showChosenFilter(evt);
-    document.querySelectorAll('.picture').forEach((element)=>element.remove());
-    photosCount = RANDOM_PHOTO_COUNT;
-    comparePictures = () => (Math.random() - 0.5);
-    render();
-  });
-};
-
-const discussedSort = (render, photosCountDefault) => {
-  discussedButton.addEventListener('click', (evt) => {
-    hideUnchosenFilter();
-    showChosenFilter(evt);
-    document.querySelectorAll('.picture').forEach((element)=>element.remove());
-    photosCount = photosCountDefault;
-    comparePictures = (pictureA, pictureB) => {
-      const rankA = pictureA.comments.length;
-      const rankB = pictureB.comments.length;
-      return rankB - rankA;
-    };
-    render();
-  });
-};
-
-function debounce (callback, timeoutDelay = 500) {
-  let timeoutId;
-  return (...rest) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-  };
-}
 
 const renderPictures = (pictures) => {
   const picturesFragment = document.createDocumentFragment();
@@ -81,4 +57,4 @@ const renderPictures = (pictures) => {
   allPictures.appendChild(picturesFragment);
 };
 
-export { renderPictures, debounce, defaultSort, randomSort, discussedSort };
+export { renderPictures, sorting };
