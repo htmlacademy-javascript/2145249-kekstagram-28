@@ -15,7 +15,7 @@ const hideUnchosenFilter = () => {
 let comparePictures = () => true;
 let photosCount;
 
-const sorting = (render, allPhotos) => {
+const setFilerClickHadler = (render, allPhotos) => {
   filterContainer.addEventListener('click', (evt) => {
     hideUnchosenFilter();
     showChosenFilter(evt);
@@ -57,4 +57,4 @@ const renderPictures = (pictures) => {
   allPictures.appendChild(picturesFragment);
 };
 
-export { renderPictures, sorting };
+export { renderPictures, setFilerClickHadler };
