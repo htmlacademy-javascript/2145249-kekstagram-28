@@ -1,7 +1,7 @@
+const RANDOM_PHOTO_COUNT = 10;
 const allPictures = document.querySelector('.pictures');
 const picturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const filterContainer = document.querySelector('.img-filters__form');
-const RANDOM_PHOTO_COUNT = 10;
 
 const showChosenFilter = (evt) => {
   evt.target.classList.add('img-filters__button--active');

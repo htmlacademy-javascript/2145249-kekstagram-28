@@ -1,3 +1,4 @@
+const MIN_COMMENT_COUNT = 5;
 const fullPicture = document.querySelector('.big-picture');
 const bigImage = fullPicture.querySelector('.big-picture__img img');
 const likes = fullPicture.querySelector('.likes-count');
@@ -6,7 +7,6 @@ const description = fullPicture.querySelector('.social__caption');
 const comments = fullPicture.querySelector('.social__comments');
 const commentList = fullPicture.querySelector('.social__comment');
 const commentsLoader = fullPicture.querySelector('.comments-loader');
-const MIN_COMMENT_COUNT = 5;
 let shownComments = 0;
 let moreComments = [];
 
