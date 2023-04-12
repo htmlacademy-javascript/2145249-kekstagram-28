@@ -21,6 +21,7 @@ const pristine = new Pristine(form, {
   errorTextParent: 'img-upload__field-wrapper',
 });
 
+
 const onDocumentKeydown = (evt) => {
   const isOpen = document.querySelector('.error');
   if (isEscapeKey(evt) && !isOpen) {
@@ -82,10 +83,10 @@ const isUniqueHashTag = (tags) => {
   return lowerCaseTag.length === new Set(lowerCaseTag).size;
 };
 
-function validateHashtags(value) {
+const validateHashtags = (value) => {
   const tags = value.trim().split(' ').filter((tag) => tag.trim().length);
   return tags.every(isValidHashtag) && isValidHashtagCount(tags) && isUniqueHashTag(tags);
-}
+};
 
 pristine.addValidator(form.querySelector('.text__hashtags'), validateHashtags, 'Неправильно заполнены хэш-теги');
 
@@ -122,9 +123,7 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-function validateDescription(value) {
-  return value.length <= 140;
-}
+const validateDescription = (value) => value.length <= 140;
 
 pristine.addValidator(form.querySelector('.text__description'), validateDescription, 'Комментарий не более 140 символов');
 

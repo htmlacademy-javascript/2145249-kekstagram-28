@@ -13,8 +13,7 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function openFullPicture (evt,pictures) {
-
+const openFullPicture = (evt,pictures) => {
   if(evt.target.matches('.picture__img')) {
     bigPicture.classList.remove('hidden');
     const target = evt.target.closest('.picture');
@@ -24,7 +23,7 @@ function openFullPicture (evt,pictures) {
   }
   showMoreComments.addEventListener('click', renderComments);
   document.addEventListener('keydown', onDocumentKeydown);
-}
+};
 
 function closeFullPicture () {
   bigPicture.classList.add('hidden');

@@ -6,12 +6,14 @@ const showAlert = (type) => {
   document.body.append(alertContainer);
   const shownAlert = document.querySelector(`.${type}`);
   const closeButton = document.querySelector(`.${type}__button`);
+
   const onDocumentKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       closeAlert();
     }
   };
+
   function closeAlert () {
     shownAlert.remove();
     document.removeEventListener('keydown', onDocumentKeydown);

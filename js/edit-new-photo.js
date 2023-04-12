@@ -1,11 +1,12 @@
+const SCALE_STEP = 25;
+const SCALE_MAX = 100;
+const SCALE_MIN = 25;
+const STARTEFFECTLEVEL = 100;
 const newImage = document.querySelector('.img-upload__preview img');
 const editScaleContainer = document.querySelector('.img-upload__scale');
 const scaleSmaller = editScaleContainer.querySelector('.scale__control--smaller');
 const scaleBigger = editScaleContainer.querySelector('.scale__control--bigger');
 const scaleInput = editScaleContainer.querySelector('.scale__control--value');
-const SCALE_STEP = 25;
-const SCALE_MAX = 100;
-const SCALE_MIN = 25;
 scaleInput.value = '100%';
 const effects = document.querySelector('.effects');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
@@ -61,13 +62,12 @@ const EFFECTS = [
     unit: '',
   }
 ];
-const STARTEFFECTLEVEL = 100;
 let currentEffect = '';
 
-function scaleImage(value) {
+const scaleImage = (value) => {
   newImage.style.transform = `scale(${value / 100})`;
   scaleInput.value = `${value}%`;
-}
+};
 
 scaleSmaller.addEventListener('click', () => {
   let newScale = parseInt(scaleInput.value, 10) - SCALE_STEP;
@@ -99,7 +99,7 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-function changeEffect(evt) {
+const changeEffect = (evt) => {
   if (!evt.target.classList.contains('effects__radio')) {
     return;
   }
@@ -118,7 +118,7 @@ function changeEffect(evt) {
     step: currentEffect.step,
     start: currentEffect.max,
   });
-}
+};
 
 effects.addEventListener('change', (evt) => {
   changeEffect(evt);
@@ -133,12 +133,11 @@ sliderElement.noUiSlider.on('update', () => {
   }
 });
 
-function resetEffects() {
+const resetEffects = () => {
   currentEffect = EFFECTS[0];
   newImage.style.filter = EFFECTS[0].style;
   sliderContainer.classList.add('hidden');
   newImage.style.transform = 'scale(1)';
-
-}
+};
 
 export { resetEffects, resetScale };
